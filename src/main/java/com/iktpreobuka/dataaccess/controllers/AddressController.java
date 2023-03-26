@@ -1,10 +1,7 @@
 package com.iktpreobuka.dataaccess.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,36 +9,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.dataaccess.entities.AddressEntity;
 import com.iktpreobuka.dataaccess.repositories.AddressRepository;
-import com.iktpreobuka.dataaccess.services.AddressDAO;
 
 @RestController
 @RequestMapping("/api/v1/addresses")
 public class AddressController {
 	
 	@Autowired
-	private AddressDAO addressRepository;
+	private AddressRepository addressRepository;
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public AddressEntity createAddress(@RequestParam String street, 
-			@RequestParam String city, @RequestParam String country) {
+										@RequestParam String city, 
+										@RequestParam String country) {
 		AddressEntity address = new AddressEntity(street, city, country);
-		address.setCity(street);
-		address.setCountry(city);
-		address.setStreet(country);
-		addressRepository.save(address);
-		return address;
+//		address.setCity(street);
+//		address.setCountry(city);
+//		address.setStreet(country);		
+		return addressRepository.save(address);
 	}
 	
 	@GetMapping()
+	//@RequestMapping(method = RequestMethod.GET)
 	public Iterable<AddressEntity> getAll(){
 		//return (List<AddressEntity>) addressRepository.findAll();
 		return addressRepository.findAll();
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/user/{name}")
-	public List<AddressEntity> findAddressByUsername(@PathVariable String name){
-		return addressRepository.findAddressByUsername(name);
-	}
+//	@RequestMapping(method = RequestMethod.GET, path = "/user/{name}")
+//	public List<AddressEntity> findAddressByUsername(@PathVariable String name){
+//		return ((AddressRepository) addressRepository).findAddressByUsername(name);
+//	}
 	
 	/*
 • 1.1 popuniti bazu podataka sa podacima o deset adresa

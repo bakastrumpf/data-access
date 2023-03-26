@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.iktpreobuka.dataaccess.entities.AddressEntity;
 
 @Service
-public class AddressDAOImpl implements AddressDAO {
+public class AddressDAOImpl implements AddressRepository {
 	
 	@PersistenceContext
 	private EntityManager em;

@@ -27,18 +27,22 @@ public class UserController {
 	private AddressRepository addressRepository;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public UserEntity createUser(@RequestParam String name,
-			@RequestParam String email) {
+	public UserEntity createUser(@RequestParam String name,	@RequestParam String email) {
 		UserEntity user = new UserEntity();
 		user.setEmail(email);
 		user.setName(name);
+		// return null;
 	//	UserEntity retUser = userRepository.save(user);
 		userRepository.save(user);
 	//	return retUser;
 		return user;
+		
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping
+	// podrazumevane vrednosti:
+	// @RequestMapping(method = RequestMethod.GET)
+	// @RequestMapping(method = RequestMethod.GET, value = "")
 	public List<UserEntity> getAll(){
 		return (List<UserEntity>) userRepository.findAll();
 	}

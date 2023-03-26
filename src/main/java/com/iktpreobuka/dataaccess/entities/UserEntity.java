@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 
 /*
 • 2.1 unaprediti UserEntity tako da ima datum rođenja, broj telefona, JMBG, broj lične karte
-
+ 
 • odabrati odgovarajuće Hibernate anotacije i njihove parametre za svako od ovih polja
 • 2.2 omogućiti pronalaženje korisnika po datumu rođenja sortiranih u rastućem redosledu imena
 • putanja /by-dob
