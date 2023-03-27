@@ -29,6 +29,11 @@ public class UserEntity {
 	private Integer id;
 	private String name;
 	private String email;
+	
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "address")
+	private AddressEntity adresa;
+	  
 	private Date datumRodjenja;
 	private String brTel;
 	private String JMBG;
@@ -118,4 +123,6 @@ public class UserEntity {
 	public void setAddress(AddressEntity address) {
 		this.address = address;
 	}
+	
+	
 }

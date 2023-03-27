@@ -51,14 +51,28 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.PUT, path = "/{id}/address")
 	public UserEntity addAddress(@PathVariable Integer id, 
 			@RequestParam Integer addressId) {
+		// klasa Optional koja  nam pomaže da se odbranimo od vrednosti NULL:
+		// pomoću .get() kažemo daj mi vrednost koja god da je, pa i ako je NULL
+		// trenutno nećemo komplikovati više od toga
 		UserEntity user = userRepository.findById(id).get();
 		AddressEntity address = addressRepository.findById(addressId).get();
 		user.setAddress(address);
 		userRepository.save(user);
 		return user;
+		// ili
+		// return userRepository.save(user);
 	}
 	
-	//1.3
+	
+	
+	//1.3 omogućiti pronalaženje korisnika po email adresi
+	// putanja /by-email
+//	@RequestMapping(method = RequestMethod.GET, path = "/by-email")
+//	public List<UserEntity> findByEmail(@RequestParam String emailId){
+//		UserEntity email = userRepository.findByEmail(emailId).get();
+//		return email;
+//	}
+	
 	/*@RequestMapping(method = RequestMethod.PUT, path = "/{id}/email")
 	public UserEntity addEmail(@PathVariable Integer id, 
 			@RequestParam Integer emailId) {
@@ -68,6 +82,10 @@ public class UserController {
 		return userRepository.save(user);
 	}
 	*/
+	
+	// 1.4 omogućiti pronalaženje korisnika po imenu
+	// vraćanje korisnika sortiranih po rastućoj vrednosti emaila
+	// putanja /by-name
 	
 	/*
 • 1.1 popuniti bazu podataka sa podacima o deset osoba

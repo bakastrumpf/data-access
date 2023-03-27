@@ -1,15 +1,20 @@
 package com.iktpreobuka.dataaccess.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+
 //import java.util.List;
 
 //import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 //import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-//import javax.persistence.OneToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,10 +40,10 @@ public class AddressEntity {
 	@Version
 	private Integer version;
 	
-	@JsonIgnore	
-	//@OneToMany(mappedBy = "address", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-
-	// private List<UserEntity> users;
+	@OneToMany(mappedBy = "address", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<UserEntity> users;
+	
 	
 	public AddressEntity() {
 		super();
@@ -93,6 +98,14 @@ public class AddressEntity {
 
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+
+	public List<UserEntity> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
 	}
 	
 	
