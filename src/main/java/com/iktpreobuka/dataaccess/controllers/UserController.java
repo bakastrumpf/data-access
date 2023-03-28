@@ -1,11 +1,13 @@
 package com.iktpreobuka.dataaccess.controllers;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -127,4 +129,34 @@ prosleđivanje parametara za kreiranje korisnika i adrese
 	public List<UserEntity> findByNameStartsWith(@RequestParam String firstsLetter) {
 		return userRepository.findByNameStartsWith(firstsLetter);
 	}
+	
+	@PostMapping("/with-address")
+	public UserEntity newUserWithAddress(@RequestParam String name, 
+										@RequestParam String email,
+										@RequestParam Date dateOfBirth, 
+										@RequestParam String brTel, 
+										@RequestParam String jMBG, 
+										@RequestParam String brLK, 
+										@RequestParam Integer addressId, 
+										@RequestParam String street) {
+		UserEntity user = new UserEntity();
+		user.setName(name);
+		user.setEmail(email);
+		user.setDatumRodjenja(dateOfBirth);
+		user.setBrTel(brTel);
+		user.setJMBG(jMBG);
+		user.setBrLK(brLK);
+		AddressEntity adresa = addressRepository.findById(addressId).get();
+		if(adresa != null) {
+			user.setAddress(adresa);
+ 		} else {
+ 			AddressEntity novaAdresa = new AddressEntity();
+ 			novaAdresa.setStreet(street);
+ 			addressRepository.save(novaAdresa);
+ 			user.setAddress(novaAdresa);
+ 		}
+		UserEntity retUser = userRepository.save(user);
+		return retUser;
+		}
+	
 }
