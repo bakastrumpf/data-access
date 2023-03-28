@@ -1,7 +1,11 @@
 package com.iktpreobuka.dataaccess.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,8 +58,7 @@ public class AddressController {
 	 */
 	
 	/*
-• 2.2 u AddressController dodati REST entpoint-e za dodavanje i
-brisanje korisnika u adresama
+• 2.2 u AddressController dodati REST entpoint-e za dodavanje i brisanje korisnika u adresama
 */
 	
 	/*
@@ -68,5 +71,23 @@ adresom
 • 3.2* za svaki od entiteta napraviti REST kontrolere
 • koji podržavaju standardne CRUD operacije
 	 */
+	
+	@GetMapping("/by-id")
+	public AddressEntity getById(@RequestParam Integer addressId) {
+		return addressRepository.findById(addressId).get();
+	}
+	
+	@PutMapping("/{id}")
+	public AddressEntity changeAdress(@PathVariable Integer id, @RequestBody AddressEntity modifiedAddress) {
+		AddressEntity address = addressRepository.findById(id).get();
+		if(modifiedAddress.getStreet() != null)
+			address.setStreet(modifiedAddress.getStreet());
+		return addressRepository.save(address);
+	}
+	
+	@DeleteMapping("/{id}")
+	public void deleteById(@PathVariable Integer id) {
+		addressRepository.deleteById(id);
+	}
 
 }
