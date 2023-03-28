@@ -1,8 +1,10 @@
 package com.iktpreobuka.dataaccess.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -110,4 +112,19 @@ prosleđivanje parametara za kreiranje korisnika i adrese
 • ukoliko adresa postoji u bazi podataka dodaje je korisniku
 • ukoliko adresa ne postoji, kreira adresu i dodaje je korisniku
 	 */
+	
+	@GetMapping("/by-name")
+	public List<UserEntity> findByNameOrderByDateOfBirthAsc(@RequestParam String name) {
+		return userRepository.findByNameOrderByDateOfBirthAsc(name);
+	}
+	
+	@GetMapping("/by-dob")
+	public List<UserEntity> findByDateOfBirthOrderByNameAsc(@RequestParam LocalDate dateOfBirth) {
+		return userRepository.findByDateOfBirthOrderByNameAsc(dateOfBirth);
+	}
+	
+	@GetMapping("/by-name-first-letter")
+	public List<UserEntity> findByNameStartsWith(@RequestParam String firstsLetter) {
+		return userRepository.findByNameStartsWith(firstsLetter);
+	}
 }
