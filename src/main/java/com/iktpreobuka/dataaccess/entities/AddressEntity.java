@@ -32,7 +32,7 @@ public class AddressEntity {
 	private String street;
 	
 	@Column(nullable = false)
-	private String city;
+	private CityEntity city;
 	
 	@Column(nullable = false)
 	private String country;
@@ -51,7 +51,7 @@ public class AddressEntity {
 	
 	
 
-	public AddressEntity(String street, String city, String country) {
+	public AddressEntity(String street, CityEntity city, String country) {
 		super();
 		this.street = street;
 		this.city = city;
@@ -76,11 +76,11 @@ public class AddressEntity {
 		this.street = street;
 	}
 
-	public String getCity() {
+	public CityEntity getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(CityEntity city) {
 		this.city = city;
 	}
 
@@ -106,6 +106,12 @@ public class AddressEntity {
 
 	public void setUsers(List<UserEntity> users) {
 		this.users = users;
+	}
+
+
+
+	public void setNumOfUsers(int size) {
+		// TODO 
 	}
 	
 	

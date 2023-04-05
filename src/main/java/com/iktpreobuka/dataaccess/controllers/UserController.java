@@ -126,8 +126,8 @@ prosleđivanje parametara za kreiranje korisnika i adrese
 	}
 	
 	@GetMapping("/by-name-first-letter")
-	public List<UserEntity> findByNameStartsWith(@RequestParam String firstsLetter) {
-		return userRepository.findByNameStartsWith(firstsLetter);
+	public List<UserEntity> findByNameStartsWith(@RequestParam String firstLetter) {
+		return userRepository.findByNameStartsWith(firstLetter);
 	}
 	
 	@PostMapping("/with-address")

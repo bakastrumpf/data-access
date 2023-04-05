@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.dataaccess.entities.AddressEntity;
+import com.iktpreobuka.dataaccess.entities.CityEntity;
+import com.iktpreobuka.dataaccess.entities.UserEntity;
 import com.iktpreobuka.dataaccess.repositories.AddressRepository;
+import com.iktpreobuka.dataaccess.repositories.CityRepository;
+import com.iktpreobuka.dataaccess.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/v1/addresses")
@@ -21,9 +25,15 @@ public class AddressController {
 	@Autowired
 	private AddressRepository addressRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private CityRepository cityRepository;
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public AddressEntity createAddress(@RequestParam String street, 
-										@RequestParam String city, 
+										@RequestParam CityEntity city, 
 										@RequestParam String country) {
 		AddressEntity address = new AddressEntity(street, city, country);
 //		address.setCity(street);
@@ -60,6 +70,31 @@ public class AddressController {
 	/*
 • 2.2 u AddressController dodati REST entpoint-e za dodavanje i brisanje korisnika u adresama
 */
+	@PutMapping("/{id}/addUser")
+	public AddressEntity addUser(@PathVariable Integer id, @RequestParam Integer userId) {
+		AddressEntity address = addressRepository.findById(id).get();
+		UserEntity user = userRepository.findById(userId).get();
+		address.getUsers().add(user);
+		address.setNumOfUsers(address.getUsers().size());
+		return address;
+	}
+	
+	@GetMapping("/{id}/removeUser")
+	public AddressEntity removeUser(@PathVariable Integer id, @RequestParam Integer userId) {
+		AddressEntity address = addressRepository.findById(id).get();
+		UserEntity user = userRepository.findById(userId).get();
+		address.getUsers().remove(user);
+		address.setNumOfUsers(address.getUsers().size());
+		return address;
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, path = "/{id}/city")
+	public AddressEntity addCity(@PathVariable Integer id, @RequestParam Integer cityId) {
+		AddressEntity address = addressRepository.findById(id).get();
+		CityEntity city = cityRepository.findById(cityId).get();
+		address.setCity(city);
+		return addressRepository.save(address);
+	}
 	
 	/*
 • 3.1* državu i grad izdvojiti kao posebne entitete i povezati sa
@@ -88,6 +123,9 @@ adresom
 	@DeleteMapping("/{id}")
 	public void deleteById(@PathVariable Integer id) {
 		addressRepository.deleteById(id);
+		// dobra je praksa da se vrati obrisani objekat
+		
 	}
+	
 
 }
