@@ -19,4 +19,51 @@ public class CountryEntity {
 	@Column(name = "city_name")
 	private CityEntity city;
 
+	
+	public CountryEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public CountryEntity(Integer id, String name, CityEntity city) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.city = city;
+	}
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public CityEntity getCity() {
+		return city;
+	}
+
+
+	public void setCity(CityEntity city) {
+		this.city = city;
+	}
+	
+	
+	
+
 }
