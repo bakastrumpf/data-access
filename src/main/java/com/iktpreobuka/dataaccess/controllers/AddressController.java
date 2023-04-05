@@ -1,5 +1,7 @@
 package com.iktpreobuka.dataaccess.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.dataaccess.entities.AddressEntity;
 import com.iktpreobuka.dataaccess.entities.CityEntity;
+import com.iktpreobuka.dataaccess.entities.CountryEntity;
 import com.iktpreobuka.dataaccess.entities.UserEntity;
 import com.iktpreobuka.dataaccess.repositories.AddressRepository;
 import com.iktpreobuka.dataaccess.repositories.CityRepository;
@@ -60,16 +63,64 @@ public class AddressController {
 • vraćanje adrese po ID
 • ažuriranje adrese
 • brisanje adrese
-• 1.3 omogućiti pronalaženje adrese po gradu
-• putanja /by-city
-• 1.4 omogućiti pronalaženje adrese po državi
-• vraćanje adresa sortiranih po rastućoj vrednosti države
-• putanja /by-country
 	 */
 	
+	@GetMapping("/fing-by-id") // zašto se traži da tip bude OPTIONAL?
+	public AddressEntity getById(@RequestParam Integer addressId) {
+		return addressRepository.findById(addressId).get();
+	}
+	
+	
+//	@GetMapping("/by-id")
+//	public AddressEntity getById(@RequestParam Integer addressId) {
+//		return addressRepository.findById(addressId).get();
+//	}
+	
+	
+	@PutMapping("/{id}")
+	public AddressEntity changeAdress(@PathVariable Integer id, @RequestBody AddressEntity modifiedAddress) {
+		AddressEntity address = addressRepository.findById(id).get();
+		if(modifiedAddress.getStreet() != null)
+			address.setStreet(modifiedAddress.getStreet());
+		return addressRepository.save(address);
+	}
+	
+	
+	@DeleteMapping("/{id}")
+	public void deleteById(@PathVariable Integer id) {
+		addressRepository.deleteById(id);
+		// dobra je praksa da se vrati obrisani objekat
+		
+	}
+	
 	/*
-• 2.2 u AddressController dodati REST entpoint-e za dodavanje i brisanje korisnika u adresama
-*/
+	• 1.3 omogućiti pronalaženje adrese po gradu
+	• putanja /by-city
+	
+	*/
+	
+	@GetMapping("/by-city/{city}")
+	public List<AddressRepository> findAllByCity(@PathVariable CityEntity city) {
+		return addressRepository.findAllByCity(city);
+	}
+	
+	
+	
+	/*
+	• 1.4 omogućiti pronalaženje adrese po državi
+	• vraćanje adresa sortiranih po rastućoj vrednosti države
+	• putanja /by-country
+	*/
+	
+	@GetMapping("/by-country/{country}")
+	public List<AddressRepository> findAllByCountryOrderByCityAsc(@PathVariable CountryEntity country) {
+		return addressRepository.findAllByCountryOrderByCityAsc(country);
+	}
+	
+	
+
+	// 2.2 u AddressController dodati REST entpoint-e za dodavanje i brisanje korisnika u adresama
+
 	@PutMapping("/{id}/addUser")
 	public AddressEntity addUser(@PathVariable Integer id, @RequestParam Integer userId) {
 		AddressEntity address = addressRepository.findById(id).get();
@@ -107,25 +158,7 @@ adresom
 • koji podržavaju standardne CRUD operacije
 	 */
 	
-	@GetMapping("/by-id")
-	public AddressEntity getById(@RequestParam Integer addressId) {
-		return addressRepository.findById(addressId).get();
-	}
-	
-	@PutMapping("/{id}")
-	public AddressEntity changeAdress(@PathVariable Integer id, @RequestBody AddressEntity modifiedAddress) {
-		AddressEntity address = addressRepository.findById(id).get();
-		if(modifiedAddress.getStreet() != null)
-			address.setStreet(modifiedAddress.getStreet());
-		return addressRepository.save(address);
-	}
-	
-	@DeleteMapping("/{id}")
-	public void deleteById(@PathVariable Integer id) {
-		addressRepository.deleteById(id);
-		// dobra je praksa da se vrati obrisani objekat
-		
-	}
+
 	
 
 }
