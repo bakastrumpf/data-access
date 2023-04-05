@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.dataaccess.entities.AddressEntity;
 import com.iktpreobuka.dataaccess.entities.CityEntity;
-import com.iktpreobuka.dataaccess.entities.CountryEntity;
 import com.iktpreobuka.dataaccess.entities.UserEntity;
 import com.iktpreobuka.dataaccess.repositories.AddressRepository;
 import com.iktpreobuka.dataaccess.repositories.CityRepository;
@@ -38,7 +37,7 @@ public class AddressController {
 	public AddressEntity createAddress(@RequestParam String street, 
 										@RequestParam CityEntity city, 
 										@RequestParam String country) {
-		AddressEntity address = new AddressEntity(street, city, country);
+		AddressEntity address = new AddressEntity(null, street, city, country, null, null);
 //		address.setCity(street);
 //		address.setCountry(city);
 //		address.setStreet(country);		
@@ -100,7 +99,7 @@ public class AddressController {
 	*/
 	
 	@GetMapping("/by-city/{city}")
-	public List<AddressRepository> findAllByCity(@PathVariable CityEntity city) {
+	public List<AddressRepository> findAllByCity(@PathVariable String city) {
 		return addressRepository.findAllByCity(city);
 	}
 	
@@ -113,7 +112,7 @@ public class AddressController {
 	*/
 	
 	@GetMapping("/by-country/{country}")
-	public List<AddressRepository> findAllByCountryOrderByCityAsc(@PathVariable CountryEntity country) {
+	public List<AddressRepository> findAllByCountryOrderByCityAsc(@PathVariable String country) {
 		return addressRepository.findAllByCountryOrderByCityAsc(country);
 	}
 	

@@ -36,83 +36,106 @@ public class AddressEntity {
 	
 	@Column(nullable = false)
 	private String country;
-	
-	@Version
-	private Integer version;
-	
+		
 	@OneToMany(mappedBy = "address", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<UserEntity> users;
 	
+	@Column(name = "users")
+	private Integer numOfUsers;	
+	
+	@Version
+	private Integer version;
+
 	
 	public AddressEntity() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	
-	
 
-	public AddressEntity(String street, CityEntity city, String country) {
+
+	public AddressEntity(Integer id, String street, CityEntity city, String country, List<UserEntity> users,
+			Integer numOfUsers) {
 		super();
+		this.id = id;
 		this.street = street;
 		this.city = city;
 		this.country = country;
+		this.users = users;
+		this.numOfUsers = numOfUsers;
 	}
-
 
 
 	public Integer getId() {
 		return id;
 	}
 
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 
 	public String getStreet() {
 		return street;
 	}
 
+
 	public void setStreet(String street) {
 		this.street = street;
 	}
+
 
 	public CityEntity getCity() {
 		return city;
 	}
 
+
 	public void setCity(CityEntity city) {
 		this.city = city;
 	}
+
 
 	public String getCountry() {
 		return country;
 	}
 
+
 	public void setCountry(String country) {
 		this.country = country;
 	}
 
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
 
 	public List<UserEntity> getUsers() {
 		return users;
 	}
+
 
 	public void setUsers(List<UserEntity> users) {
 		this.users = users;
 	}
 
 
-
-	public void setNumOfUsers(int size) {
-		// TODO 
+	public Integer getNumOfUsers() {
+		return numOfUsers;
 	}
+
+
+	public void setNumOfUsers(Integer numOfUsers) {
+		this.numOfUsers = numOfUsers;
+	}
+
+
+	public Integer getVersion() {
+		return version;
+	}
+
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	
+	
 	
 	
 	

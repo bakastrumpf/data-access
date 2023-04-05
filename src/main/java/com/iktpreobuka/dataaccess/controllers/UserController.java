@@ -104,17 +104,7 @@ public class UserController {
 • putanja /by-name
 	 */
 	
-	/*
-• 2.1 dodati REST entpoint u UserController koji omogućava
-uklanjanje adrese iz entiteta korisnika
-• 2.3* dodati REST entpoint u UserController koji omogućava
-prosleđivanje parametara za kreiranje korisnika i adrese
-• kreira korisnika
-• proverava postojanje adrese
-• ukoliko adresa postoji u bazi podataka dodaje je korisniku
-• ukoliko adresa ne postoji, kreira adresu i dodaje je korisniku
-	 */
-	
+		
 	@GetMapping("/by-name")
 	public List<UserEntity> findByNameOrderByDateOfBirthAsc(@RequestParam String name) {
 		return userRepository.findByNameOrderByDateOfBirthAsc(name);
@@ -129,6 +119,19 @@ prosleđivanje parametara za kreiranje korisnika i adrese
 	public List<UserEntity> findByNameStartsWith(@RequestParam String firstLetter) {
 		return userRepository.findByNameStartsWith(firstLetter);
 	}
+	
+	
+	// TODO 2.1 dodati REST entpoint u UserController koji omogućava uklanjanje adrese iz entiteta korisnika
+
+	
+	
+	
+	/* 	• 2.3* dodati REST entpoint u UserController koji omogućava prosleđivanje parametara za kreiranje korisnika i adrese
+		• kreira korisnika
+		• proverava postojanje adrese
+		• ukoliko adresa postoji u bazi podataka dodaje je korisniku
+		• ukoliko adresa ne postoji, kreira adresu i dodaje je korisniku
+	 */
 	
 	@PostMapping("/with-address")
 	// moglo je i bez ovoliko RequestParam
@@ -190,5 +193,41 @@ prosleđivanje parametara za kreiranje korisnika i adrese
 		UserEntity retUser = userRepository.save(user);
 		return retUser;
 		}
+	
+	/*  četvrta mogućnost
+	 * @RequestMapping(method = RequestMethod.POST, value = "/create-user-with-address")
+	 * public UserEntity newUserWithAddress(@RequestParam String name, 
+										@RequestParam String email,
+										@RequestParam Date dateOfBirth, 
+										@RequestParam String brTel, 
+										@RequestParam String jMBG, 
+										@RequestParam String brLK, 
+										@RequestParam Integer addressId, 
+										@RequestParam String street, 
+										@RequestParam String city,
+										@RequestParam String country) {
+										
+		// trenutno radi  s pozivanjem endpointa, ali ne bi trebalo tako raditi
+		// kasnije će logika biti u servisu, pa ćemo svakako menjati ovaj kod 
+		UserEntity user = createUser(name, email,  dateOfBirth, brTel, jMBG, brLK, addressId, street);
+		
+		Boolean exists = addressRepository.existsByStreetAndCityAndCountry(street, city, country);
+		
+		// predlog: pribaviti objekat i proveriti da li je null
+		// ako je null, onda ga praviti (orElseGet)
+		if(exists) {
+			AddressEntity adre = addressRepository.findByStreet(street);
+			user.setAddress(adre);
+ 		} else {
+ 			AddressEntity adre = new AddressEntity(street,  city, country);
+ 			user.setAddress(adre);
+ 			addressRepository.save(adre);
+ 		}
+ 		
+ 		userRepository.save(user);
+ 		
+ 		return user;
+	 * 
+	 */
 	
 }
