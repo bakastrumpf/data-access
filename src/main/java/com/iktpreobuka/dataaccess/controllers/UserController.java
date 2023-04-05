@@ -131,6 +131,9 @@ prosleđivanje parametara za kreiranje korisnika i adrese
 	}
 	
 	@PostMapping("/with-address")
+	// moglo je i bez ovoliko RequestParam
+	// umesto toga, mapiramo u JSONu već napisan UserEntity
+	// u RequestBody pošaljemo JSON UserEntity
 	public UserEntity newUserWithAddress(@RequestParam String name, 
 										@RequestParam String email,
 										@RequestParam Date dateOfBirth, 
@@ -146,15 +149,44 @@ prosleđivanje parametara za kreiranje korisnika i adrese
 		user.setBrTel(brTel);
 		user.setJMBG(jMBG);
 		user.setBrLK(brLK);
-		AddressEntity adresa = addressRepository.findById(addressId).get();
+		AddressEntity adresa = addressRepository.findById(addressId).orElseGet(() -> {
+			AddressEntity novaAdresa = new AddressEntity();
+				novaAdresa.setStreet(street);
+				addressRepository.save(novaAdresa);
+				user.setAddress(novaAdresa);
+				return novaAdresa;
+			}
+		);
 		if(adresa != null) {
 			user.setAddress(adresa);
  		} else {
- 			AddressEntity novaAdresa = new AddressEntity();
- 			novaAdresa.setStreet(street);
- 			addressRepository.save(novaAdresa);
- 			user.setAddress(novaAdresa);
+ 			// TODO
  		}
+		
+		/* druga mogućnost:
+		 * AddressEntity adresa = addressRepository.findById(addressId).get();
+			if(adresa != null) {
+				user.setAddress(adresa);
+	 		} else {
+	 			AddressEntity novaAdresa = new AddressEntity();
+	 			novaAdresa.setStreet(street);
+	 			addressRepository.save(novaAdresa);
+	 			user.setAddress(novaAdresa);
+	 		}
+		 */
+		
+		/* treća mogućnost:
+		 * user.setBrLK(brLK);
+		 * AddressEntity address;
+		 * if(!addressRepository.existsById(addressId){
+		 * 		address = new AddressEntity();
+	 			address.setStreet(street);
+	 			addressRepository.save(address);
+	 			user.setAddress(address);
+		 * } else {
+		 * 		address = addressRepository.findById(addressId).get();
+		 * }
+		 */
 		UserEntity retUser = userRepository.save(user);
 		return retUser;
 		}
