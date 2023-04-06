@@ -19,6 +19,7 @@ import com.iktpreobuka.dataaccess.entities.UserEntity;
 import com.iktpreobuka.dataaccess.repositories.AddressRepository;
 import com.iktpreobuka.dataaccess.repositories.CityRepository;
 import com.iktpreobuka.dataaccess.repositories.UserRepository;
+import com.iktpreobuka.dataaccess.services.AddressDAO;
 
 @RestController
 @RequestMapping("/api/v1/addresses")
@@ -26,6 +27,9 @@ public class AddressController {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	@Autowired
+	private AddressDAO addressService;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -53,19 +57,20 @@ public class AddressController {
 	
 	// metoda koja prolazi kroz sve adrese, u kojima su liste korisnika
 	// i vraća samo adrese na kojima živi korisnik s korisničkim imenom {name}
-	// treba nam servis koji će to da radi za nas
+	// treba nam servis koji će to da radi za nas 
+	// @Autowired AddressDAO... da bismo koristili njegovu metodu findAddressByUsername
 	@RequestMapping(method = RequestMethod.GET, path = "/user/{name}")
 	public List<AddressEntity> findAddressByUsername(@PathVariable String name){
-		return null;
-		// return ((AddressRepository) addressRepository).findAddressByUsername(name);
+		// return null;
+		return addressService.findAddressByUsername(name);
 	}
 	
 	/*
-• 1.1 popuniti bazu podataka sa podacima o deset adresa
-• 1.2 u potpunosti omogućiti rad sa adresama
-• vraćanje adrese po ID
-• ažuriranje adrese
-• brisanje adrese
+		• 1.1 popuniti bazu podataka sa podacima o deset adresa
+		• 1.2 u potpunosti omogućiti rad sa adresama
+		• vraćanje adrese po ID
+		• ažuriranje adrese
+		• brisanje adrese
 	 */
 	
 	@GetMapping("/fing-by-id") // zašto se traži da tip bude OPTIONAL?
