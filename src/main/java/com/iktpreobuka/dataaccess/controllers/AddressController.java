@@ -51,10 +51,14 @@ public class AddressController {
 		return addressRepository.findAll();
 	}
 	
-//	@RequestMapping(method = RequestMethod.GET, path = "/user/{name}")
-//	public List<AddressEntity> findAddressByUsername(@PathVariable String name){
-//		return ((AddressRepository) addressRepository).findAddressByUsername(name);
-//	}
+	// metoda koja prolazi kroz sve adrese, u kojima su liste korisnika
+	// i vraća samo adrese na kojima živi korisnik s korisničkim imenom {name}
+	// treba nam servis koji će to da radi za nas
+	@RequestMapping(method = RequestMethod.GET, path = "/user/{name}")
+	public List<AddressEntity> findAddressByUsername(@PathVariable String name){
+		return null;
+		// return ((AddressRepository) addressRepository).findAddressByUsername(name);
+	}
 	
 	/*
 • 1.1 popuniti bazu podataka sa podacima o deset adresa
