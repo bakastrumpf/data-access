@@ -98,6 +98,7 @@ public class AddressController {
 	public void deleteById(@PathVariable Integer id) {
 		addressRepository.deleteById(id);
 		// dobra je praksa da se vrati obrisani objekat
+		// return STH;
 		
 	}
 	
