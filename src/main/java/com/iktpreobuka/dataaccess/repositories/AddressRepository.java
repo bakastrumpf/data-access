@@ -8,9 +8,11 @@ import com.iktpreobuka.dataaccess.entities.AddressEntity;
 
 public interface AddressRepository extends CrudRepository<AddressEntity, Integer> {
 
-	List<AddressRepository> findAllByCity(String city);
+	public List<AddressRepository> findAllByCity(String city);
 
-	List<AddressRepository> findAllByCountryOrderByCityAsc(String country);
+	public List<AddressRepository> findAllByCountryOrderByCityAsc(String country);
+	
+	// ? public List<AddressEntity> findByName(String name);
 	
 	// Boolean existsByStreetAndCityAndCountry(String street, String city, String country);
 	
