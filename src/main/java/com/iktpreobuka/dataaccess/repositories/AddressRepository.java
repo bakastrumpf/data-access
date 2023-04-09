@@ -7,10 +7,12 @@ import org.springframework.data.repository.CrudRepository;
 import com.iktpreobuka.dataaccess.entities.AddressEntity;
 
 public interface AddressRepository extends CrudRepository<AddressEntity, Integer> {
+	
+	public List<AddressEntity> findAddressesByUserName(String name);
 
-	public List<AddressRepository> findAllByCity(String city);
+	public List<AddressEntity> findAllByCity(String city);
 
-	public List<AddressRepository> findAllByCountryOrderByCityAsc(String country);
+	public List<AddressEntity> findAllByCountryOrderByCityAsc(String country);
 	
 	// ? public List<AddressEntity> findByName(String name);
 	

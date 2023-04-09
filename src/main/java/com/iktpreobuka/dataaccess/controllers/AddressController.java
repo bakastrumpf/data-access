@@ -109,7 +109,7 @@ public class AddressController {
 	*/
 	
 	@GetMapping("/by-city/{city}")
-	public List<AddressRepository> findAllByCity(@PathVariable String city) {
+	public List<AddressEntity> findAllByCity(@PathVariable String city) {
 		return addressRepository.findAllByCity(city);
 	}
 	
@@ -122,7 +122,7 @@ public class AddressController {
 	*/
 	
 	@GetMapping("/by-country/{country}")
-	public List<AddressRepository> findAllByCountryOrderByCityAsc(@PathVariable String country) {
+	public List<AddressEntity> findAllByCountryOrderByCityAsc(@PathVariable String country) {
 		return addressRepository.findAllByCountryOrderByCityAsc(country);
 	}
 	
