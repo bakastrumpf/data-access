@@ -20,11 +20,14 @@ public class AddressDAOImpl implements AddressDAO {
 		
 		// TODO napravi HQL upit koji pronalazi adresu na kojoj živi korisnik s datim imenom
 		// SELECT * FROM AddressEntity a LEFT JOIN UserEntity u ON a.id == u.address WHERE name u.name = :name
+		
+		// String sql = "SELECT a FROM AddressEntity a LEFT JOING FETCH a.users u WHERE u.name = " + name;
 		String sql = "SELECT a FROM AddressEntity a"
 				// HQL ne zna za kolone u tabeli već samo za reference na objekte
 				// a pošto u AddressEntity postoji spisak USERS kao lista
 				// pišemo a.users da bismo izvukli USERS iz ADDRESS ENTITY
 				+ " LEFT JOIN FETCH a.users u "
+				// prednosti :name 
 				+ "WHERE u.name = :name";
 		
 		// TODO pozovi HQL upit
