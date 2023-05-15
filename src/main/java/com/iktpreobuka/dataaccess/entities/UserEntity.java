@@ -124,5 +124,10 @@ public class UserEntity {
 		this.address = address;
 	}
 	
+	@Override
+	public String toString() {
+		return "UserEntity [id=" + id + ", name = " + name + ", email = " + email + ", address = " + address + "]";
+	}
+	
 	
 }
