@@ -22,7 +22,7 @@ public class UploadController {
 	@Autowired 
 	private ReadCSVFile readCsvFile;
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private FileHandler fileHandler;
@@ -50,7 +50,7 @@ public class UploadController {
 		logger.error("This is an error message!");
 		String result = null;
 		try {
-			result = fileHandler.singleFileUpload(file, redirectAttributes);
+			result = ((UploadController) fileHandler).singleFileUpload(file, redirectAttributes);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
