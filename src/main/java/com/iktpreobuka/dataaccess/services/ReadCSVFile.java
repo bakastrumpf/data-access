@@ -1,8 +1,8 @@
 package com.iktpreobuka.dataaccess.services;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,8 @@ public class ReadCSVFile {
 	
 	public void ReadCSV() throws IOException {
 		
-		try (ICsvBeanReader = new CsvBeanReader(new FileReader(CSV_FILENAME), CsvPreference.STANDARD_PREFERENCE)) {
-			// header elements used to map malues to bean
+		try (ICsvBeanReader beanReader = new CsvBeanReader(new FileReader(CSV_FILENAME), CsvPreference.STANDARD_PREFERENCE)) {
+			// header elements used to map values to the bean
 			final String[] headers = beanReader.getHeader(true);
 			// final String[] headers = new String[] {"CustomerId", "CustomerName", "Country", "PinCode", "Email"};
 			final CellProcessor[] processors = getProcessors();

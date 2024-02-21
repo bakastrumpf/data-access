@@ -86,7 +86,7 @@ public class AddressController {
 	
 	
 	@PutMapping("/{id}")
-	public AddressEntity changeAdress(@PathVariable Integer id, @RequestBody AddressEntity modifiedAddress) {
+	public AddressEntity changeAddress(@PathVariable Integer id, @RequestBody AddressEntity modifiedAddress) {
 		AddressEntity address = addressRepository.findById(id).get();
 		if(modifiedAddress.getStreet() != null)
 			address.setStreet(modifiedAddress.getStreet());
