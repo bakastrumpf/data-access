@@ -1,5 +1,5 @@
 package com.iktpreobuka.dataaccess.entities;
-
+// as of May 2024, db annotations no longer work
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
