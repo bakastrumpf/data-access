@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="db_example@localhost">
-  <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.51">
-    <root id="1">
-      <DefaultCasing>exact</DefaultCasing>
-      <DefaultEngine>InnoDB</DefaultEngine>
-      <Grants>db_example|schema||springuser|localhost|ALTER|G
-db_example|schema||springuser|localhost|ALTER ROUTINE|G
-db_example|schema||springuser|localhost|CREATE|G
-db_example|schema||springuser|localhost|CREATE ROUTINE|G
-db_example|schema||springuser|localhost|CREATE TEMPORARY TABLES|G
-db_example|schema||springuser|localhost|CREATE VIEW|G
-db_example|schema||springuser|localhost|DELETE|G
-db_example|schema||springuser|localhost|DELETE HISTORY|G
-db_example|schema||springuser|localhost|DROP|G
-db_example|schema||springuser|localhost|EVENT|G
-db_example|schema||springuser|localhost|EXECUTE|G
-db_example|schema||springuser|localhost|INDEX|G
-db_example|schema||springuser|localhost|INSERT|G
-db_example|schema||springuser|localhost|LOCK TABLES|G
-db_example|schema||springuser|localhost|REFERENCES|G
-db_example|schema||springuser|localhost|SELECT|G
-db_example|schema||springuser|localhost|SHOW VIEW|G
-db_example|schema||springuser|localhost|TRIGGER|G
-db_example|schema||springuser|localhost|UPDATE|G</Grants>
-      <ServerVersion>10.6.16</ServerVersion>
-    </root>
+  <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.52">
+    <root id="1"/>
     <collation id="2" parent="1" name="big5_chinese_ci">
       <Charset>big5</Charset>
       <DefaultForCharset>1</DefaultForCharset>
