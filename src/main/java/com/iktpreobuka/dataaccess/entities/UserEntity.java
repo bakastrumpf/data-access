@@ -1,5 +1,6 @@
 package com.iktpreobuka.dataaccess.entities;
 
+// as of May 2024, db annotations no longer work
 import java.util.Date;
 
 import javax.persistence.CascadeType;
