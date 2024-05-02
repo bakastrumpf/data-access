@@ -1,22 +1,20 @@
 package com.iktpreobuka.dataaccess.controllers;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import com.iktpreobuka.dataaccess.services.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.web.bind.annotation.*;
 
 import com.iktpreobuka.dataaccess.entities.AddressEntity;
 import com.iktpreobuka.dataaccess.entities.UserEntity;
 import com.iktpreobuka.dataaccess.repositories.AddressRepository;
 import com.iktpreobuka.dataaccess.repositories.UserRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -29,20 +27,42 @@ public class UserController {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+
+	@Autowired
+	UserDAO userService;
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public UserEntity createUser(@RequestParam String name,	@RequestParam String email) {
-		UserEntity user = new UserEntity();
-		user.setEmail(email);
-		user.setName(name);
-		// return null;
-	//	UserEntity retUser = userRepository.save(user);
-		userRepository.save(user);
-	//	return retUser;
-		return user;
-		
+//	@RequestMapping(method = RequestMethod.POST)
+//	public UserEntity createUser(@RequestParam String name,	@RequestParam String email) {
+//		UserEntity user = new UserEntity();
+//		user.setEmail(email);
+//		user.setName(name);
+//		// return null;
+//	//	UserEntity retUser = userRepository.save(user);
+//		userRepository.save(user);
+//	//	return retUser;
+//		return user;
+//	}
+
+	// VP
+	@PostMapping("")
+	public UserEntity createUser(@RequestBody UserEntity user) {
+		return userService.createUser(user);
 	}
-	
+
+	// VP
+	@PutMapping("/{id}")
+	public UserEntity updateUser(@PathVariable Integer id, @RequestBody UserEntity user) {
+		UserEntity userDb = userRepository.findById(id).get();
+		userDb.setAddress(user.getAddress());
+		userDb.setDatumRodjenja(user.getDatumRodjenja());
+		userDb.setEmail(user.getEmail());
+		userDb.setBrLK(user.getBrLK());
+		userDb.setName(user.getName());
+		userDb.setBrTel(user.getBrTel());
+		return userService.updateUser(userDb);
+	}
+
+
 	@RequestMapping
 	// podrazumevane vrednosti:
 	// @RequestMapping(method = RequestMethod.GET)
@@ -66,17 +86,15 @@ public class UserController {
 		// ili
 		// return userRepository.save(user);
 	}
-	
-	
-	
+
 	//1.3 omogućiti pronalaženje korisnika po email adresi
 	// putanja /by-email
-//	@RequestMapping(method = RequestMethod.GET, path = "/by-email")
+// 	@RequestMapping(method = RequestMethod.GET, path = "/by-email")
 //	public List<UserEntity> findByEmail(@RequestParam String emailId){
 //		UserEntity email = userRepository.findByEmail(emailId).get();
 //		return email;
 //	}
-	
+
 	/*@RequestMapping(method = RequestMethod.PUT, path = "/{id}/email")
 	public UserEntity addEmail(@PathVariable Integer id, 
 			@RequestParam Integer emailId) {
@@ -103,8 +121,12 @@ public class UserController {
 • vraćanje korisnika sortiranih po rastućoj vrednosti emaila
 • putanja /by-name
 	 */
-	
-		
+
+	@GetMapping("/by-email")
+	public UserEntity findByEmail(@RequestParam String email) {
+		return userRepository.findByEmail(email);
+	}
+
 	@GetMapping("/by-name")
 	public List<UserEntity> findByNameOrderByDateOfBirthAsc(@RequestParam String name) {
 		return userRepository.findByNameOrderByDateOfBirthAsc(name);
@@ -123,7 +145,40 @@ public class UserController {
 	
 	// TODO 2.1 dodati REST entpoint u UserController koji omogućava uklanjanje adrese iz entiteta korisnika
 
-	
+	@GetMapping("/by-name-starts-with")
+	public List<UserEntity> findByNameStartsWith(@RequestParam String firstLetter) {
+		return ((UserRepository) userRepository).findByNameStartsWith(firstLetter);
+	}
+
+	@PostMapping("/uploadFile")
+	public String uploadFile(@RequestParam MultipartFile file) throws IllegalStateException, IOException {
+		return userService.uploadFile(file);
+	}
+
+	@PostMapping("/downloadFile")
+	public FileSystemResource uploadUsers(@RequestParam(required = false) String... userAttributes) throws IOException {
+		return userService.downloadFile(userAttributes);
+	}
+
+	@PostMapping("/saveUsersFromFile")
+	public String saveUsersFromFile() {
+		return userService.saveFromFile();
+	}
+
+	@PostMapping("/emailWithAttachment")
+	public String sendMessageWithAttachment(@RequestParam MultipartFile multipartFile, @RequestParam String to,
+											@RequestParam String subject, @RequestParam String text) throws Exception {
+		if (to == null || subject == null || text == null || multipartFile == null) {
+			return null;
+		}
+		userService.sendMessageWithAttachment(to, subject, text, multipartFile);
+		return "Your mail with atachment has been sent!";
+	}
+
+	@GetMapping("/fileStatus")
+	public String fileStatus() {
+		return "fileStatus";
+	}
 	
 	
 	/* 	• 2.3* dodati REST entpoint u UserController koji omogućava prosleđivanje parametara za kreiranje korisnika i adrese
